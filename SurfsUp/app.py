@@ -70,7 +70,7 @@ def precipitation():
     prec_dict = dict(results)
 
     print(f"Precipitation - {prec_dict}")
-    print("Out of Precipitation section.")
+    
     return jsonify(prec_dict) 
 
 # #3. /api/v1.0/stations
