@@ -46,7 +46,7 @@ app = Flask(__name__)
 def welcome():
     return (
         f"Hawaii Climate Analysis API<br/>"
-        f"Available Routes:<br/>"
+        f"Routes Available:<br/>"
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
         f"/api/v1.0/tobs<br/>"
@@ -58,7 +58,6 @@ def welcome():
 # #2 api/v1.0/precipitation
 
 @app.route("/api/v1.0/precipitation")
-
 def precipitation():
     session = Session(engine)
 
@@ -68,8 +67,40 @@ def precipitation():
     results= session.query(Measurement.date, Measurement.prcp).filter(Measurement.date >= prev_last_date).order_by(Measurement.date.desc()).all()
 
 
-    p_dict = dict(results)
+    prec_dict = dict(results)
 
-    print(f"Results for Precipitation - {p_dict}")
+    print(f"Precipitation - {prec_dict}")
     print("Out of Precipitation section.")
-    return jsonify(p_dict) 
+    return jsonify(prec_dict) 
+
+# #3. /api/v1.0/stations
+
+@app.route("/api/v1.0/stations")
+def stations():
+    session = Session(engine)
+    sel = [Station.station, Station.name, Station.latitude, Station.longitude, Station.elevation]
+    query_result = session.query(*sel).all()
+    session.close()
+
+    stations = []
+    for station,name,lat,lon,el in query_result:
+        station_dict = {}
+        station_dict["Station"] = station
+        station_dict["Name"] = name
+        station_dict["Lat"] = lat
+        station_dict["Lon"] = lon
+        station_dict["Elevation"] = el
+        stations.append(station_dict)
+
+    return jsonify(stations)
+
+
+# #4. /api/v1.0/tobs
+
+@app.route("/api/v1.0/tobs")
+def tobs():
+   #  session = Session(engine)
+
+# query_result = session.query
+
+# #5. /api/v1.0/<start> and /api/v1.0/<start>/<end>
