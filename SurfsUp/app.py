@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 import datetime as dt
-import re
+
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
@@ -50,8 +50,8 @@ def welcome():
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
         f"/api/v1.0/tobs<br/>"
-        f"/api/v1.0/start (enter as YYYY-MM-DD)<br/>"
-        f"/api/v1.0/start/end (enter as YYYY-MM-DD/YYYY-MM-DD)"
+        f"/api/v1.0/start <br/>"
+        f"/api/v1.0/start/end"
 
     )
 
@@ -80,7 +80,7 @@ def stations():
     session = Session(engine)
     sel = [Station.station, Station.name, Station.latitude, Station.longitude, Station.elevation]
     query_result = session.query(*sel).all()
-    session.close()
+   
 
     stations = []
     for station,name,lat,lon,el in query_result:
